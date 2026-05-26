@@ -13,6 +13,7 @@ const otpErrors    = new Counter('otp_generation_errors');
 // Test configuration
 // ---------------------------------------------------------------------------
 export const options = {
+    
   stages: [
     { duration: '30s', target: 10 },   // Ramp up to 10 VUs
     { duration: '1m',  target: 10 },   // Hold at 10 VUs
