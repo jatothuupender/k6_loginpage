@@ -1,0 +1,17 @@
+{
+  "name": "k6-loginpage",
+  "version": "1.0.0",
+  "description": "k6 load tests for Taj Hotels login and booking flows",
+  "scripts": {
+    "test": "jest --verbose --coverage",
+    "test:watch": "jest --watch"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+  "jest": {
+    "testMatch": ["<rootDir>/tests/**/*.test.js"]
+  },
+  "keywords": ["k6", "load-testing", "performance"],
+  "license": "ISC"
+}
