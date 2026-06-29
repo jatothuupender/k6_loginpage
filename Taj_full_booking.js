@@ -15,10 +15,14 @@ const headers = {
     'Accept': 'application/json',
 };
 
-const customerHash = 'f34f41f4fb9fe59afb433029b871a151';
-const jwtToken = 'PASTE_JWT_TOKEN';
+const customerHash = __ENV.CUSTOMER_HASH; // required – pass via -e CUSTOMER_HASH=<hash>
+const jwtToken     = __ENV.JWT_TOKEN;      // required – pass via -e JWT_TOKEN=<token>
 
 export default function () {
+    if (!customerHash || !jwtToken) {
+        console.error('Missing required env vars: CUSTOMER_HASH, JWT_TOKEN');
+        return;
+    }
 
     // STEP 1 - Hotel Availability
     let availabilityPayload = JSON.stringify({
@@ -101,7 +105,6 @@ export default function () {
     );
 
     console.log('Fetch Order Status: ' + fetchRes.status);
-    console.log(fetchRes.body);
 
     check(fetchRes, {
         'fetch order success': (r) => r.status === 200,
@@ -129,11 +132,13 @@ export default function () {
     sleep(2);
 
     // STEP 5 - Confirm Order
+    const clientId = __ENV.CLIENT_ID || '';
+
     let confirmHeaders = {
         ...headers,
         customerhash: customerHash,
         jwttoken: jwtToken,
-        clientid: '67827000.1772099402',
+        clientid: clientId,
     };
 
     let confirmPayload = JSON.stringify({
@@ -147,7 +152,6 @@ export default function () {
     );
 
     console.log('Confirm Order Status: ' + confirmRes.status);
-    console.log(confirmRes.body);
 
     check(confirmRes, {
         'order confirmed': (r) => r.status === 200 || r.status === 201,

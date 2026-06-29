@@ -6,18 +6,30 @@ export const options = {
     duration: '120s',
 };
 
-export default function () {
+const BASE_URL       = __ENV.BASE_URL       || 'https://api-uatv2.tajhotels.com';
+const TEST_PHONE     = __ENV.TEST_PHONE     || '7659086950';
+const TEST_OTP       = __ENV.TEST_OTP;      // required – do not hardcode OTPs
+const REF_ID         = __ENV.REF_ID;        // required – session-specific
+const COUNTRY_CODE   = __ENV.COUNTRY_CODE   || '+91';
+const CODE_CHALLENGE = __ENV.CODE_CHALLENGE; // required – PKCE value
+const CODE_VERIFIER  = __ENV.CODE_VERIFIER;  // required – PKCE value
 
-    const url = 'https://api-uatv2.tajhotels.com/ssoService/verify-phone-otp';
+export default function () {
+    if (!TEST_OTP || !REF_ID || !CODE_CHALLENGE || !CODE_VERIFIER) {
+        console.error('Missing required env vars: TEST_OTP, REF_ID, CODE_CHALLENGE, CODE_VERIFIER');
+        return;
+    }
+
+    const url = `${BASE_URL}/ssoService/verify-phone-otp`;
 
     const payload = JSON.stringify({
-        phone: "7659086950",
-        otp: "254265",
-        refId: "3b857f7e-c19c-4c37-9b47-dab806474e14",
-        countryCode: "+91",
+        phone: TEST_PHONE,
+        otp: TEST_OTP,
+        refId: REF_ID,
+        countryCode: COUNTRY_CODE,
         isFromTCP: false,
-        codeChallenge: "dXfbsZzxtEGf_ImqvaB4fFnhYiuyYd3bgmOpoxrr-3A",
-        codeVerifier: "aDyMG7xk701_4UENI_X.-eY_EDNEvuBjD4alL5n18PYG2JRqEfwhrL4kjCeTrnQP"
+        codeChallenge: CODE_CHALLENGE,
+        codeVerifier: CODE_VERIFIER,
     });
 
     const params = {
@@ -30,7 +42,6 @@ export default function () {
     let res = http.post(url, payload, params);
 
     console.log('Status Code: ' + res.status);
-    console.log('Response Body: ' + res.body);
 
     check(res, {
         'status is 200': (r) => r.status === 200,
