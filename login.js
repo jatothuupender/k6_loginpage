@@ -29,13 +29,23 @@ export default function () {
 
     let res = http.post(url, payload, params);
 
-    console.log('Status Code: ' + res.status);
-    console.log('Response Body: ' + res.body);
-
-    check(res, {
+    const passed = check(res, {
         'status is 200': (r) => r.status === 200,
-        'response has success': (r) => r.json('success') !== null,
+        'response body is not empty': (r) => r.body && r.body.length > 0,
+        'response has success field': (r) => {
+            try {
+                const json = r.json();
+                return json.success !== undefined;
+            } catch (e) {
+                console.error(`[VU ${__VU}] Failed to parse JSON response: ${e.message}`);
+                return false;
+            }
+        },
     });
+
+    if (!passed) {
+        console.error(`[VU ${__VU}] Verify OTP failed | status=${res.status} | body=${res.body}`);
+    }
 
     sleep(1);
 }
