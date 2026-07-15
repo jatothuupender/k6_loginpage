@@ -38,6 +38,16 @@
             <stringProp name="Argument.value">${__P(OTP,123456)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
+          <elementProp name="CODE_CHALLENGE" elementType="Argument">
+            <stringProp name="Argument.name">CODE_CHALLENGE</stringProp>
+            <stringProp name="Argument.value">${__P(CODE_CHALLENGE,)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="CODE_VERIFIER" elementType="Argument">
+            <stringProp name="Argument.name">CODE_VERIFIER</stringProp>
+            <stringProp name="Argument.value">${__P(CODE_VERIFIER,)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
         </collectionProp>
       </elementProp>
     </TestPlan>
@@ -157,7 +167,9 @@
   &quot;otp&quot;: &quot;${OTP}&quot;,&#xd;
   &quot;refId&quot;: &quot;${refId}&quot;,&#xd;
   &quot;countryCode&quot;: &quot;+${countryCode}&quot;,&#xd;
-  &quot;isFromTCP&quot;: false&#xd;
+  &quot;isFromTCP&quot;: false,&#xd;
+  &quot;codeChallenge&quot;: &quot;${CODE_CHALLENGE}&quot;,&#xd;
+  &quot;codeVerifier&quot;: &quot;${CODE_VERIFIER}&quot;&#xd;
 }</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
@@ -179,6 +191,15 @@
             <boolProp name="Assertion.assume_success">false</boolProp>
             <intProp name="Assertion.test_type">2</intProp>
           </ResponseAssertion>
+          <hashTree/>
+          <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="Verify OTP: status.code == 200" enabled="true">
+            <stringProp name="JSON_PATH">$.status.code</stringProp>
+            <stringProp name="EXPECTED_VALUE">200</stringProp>
+            <boolProp name="JSONVALIDATION">true</boolProp>
+            <boolProp name="EXPECT_NULL">false</boolProp>
+            <boolProp name="INVERT">false</boolProp>
+            <boolProp name="ISREGEX">false</boolProp>
+          </JSONPathAssertion>
           <hashTree/>
         </hashTree>
         <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Think Time (between iterations)" enabled="true">

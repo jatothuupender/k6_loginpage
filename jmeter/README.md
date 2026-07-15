@@ -38,6 +38,16 @@ jmeter -n -t login.jmx -l results.jtl -e -o report \
 | `RAMP_UP`         | `60`                                 | Ramp-up period (seconds)                 |
 | `DURATION`        | `240`                                | Total run time (seconds)                 |
 | `OTP`             | `123456`                             | OTP used in the verify step              |
+| `CODE_CHALLENGE`  | *(empty)*                            | PKCE code challenge for verify step      |
+| `CODE_VERIFIER`   | *(empty)*                            | PKCE code verifier for verify step       |
+
+## Verify OTP contract
+
+A successful `verify-phone-otp` returns HTTP `200` with a body containing
+`status.code: "200"`, `status.message: "SUCCESS"`, and
+`success: "User Verified Successfully"`. The plan asserts on HTTP 2xx **and**
+`$.status.code == 200`. The request body also carries `codeChallenge` /
+`codeVerifier` (PKCE), so pass them via `-JCODE_CHALLENGE=... -JCODE_VERIFIER=...`.
 
 ## Notes
 
