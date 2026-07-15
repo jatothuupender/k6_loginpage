@@ -1,10 +1,7 @@
 # TODO
 
-- [x] Inspect existing repo state
-- [x] Create README.md with project name
-- [x] Initialize git repository
-- [x] Commit README.md
-- [x] Create/rename default branch to main
-- [x] Add git remote origin
-- [x] Push to origin and set upstream
+- [x] Inspect existing k6 scripts (BookingJourney.js, others)
+- [ ] Fix any syntax/runtime issues in k6 scripts
+- [ ] Run k6 to verify script execution
+- [ ] Capture and resolve any failures from k6 output
 
